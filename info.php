@@ -44,7 +44,16 @@ else
 
 
 <body>
+<?php
 
+ $sql = "SELECT * FROM user WHERE User_Id = $User_Id";
+ $result = mysqli_query($conn, $sql);
+ while ($row = mysqli_fetch_assoc($result)) {
+ echo "User ID: " . $row["User_Id"] . "<br>";
+ echo "Name: " . $row["First_name"] . "<br>";
+ echo "Last_name: " . $row["Last_name"] . "<br>";
+ }
+?>
 <div style=" background-color:#28224618;padding:60px;background-image: url('images/11.jpg'); background-repeat: no-repeat;background-size: cover;  ">
 <div class="info-box">
 <h1  align="center" ><img id="logo-main" src="images/p.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">Personal Information:</h1></h1><br>

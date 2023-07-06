@@ -1,6 +1,6 @@
 
-
 <?php
+
 include('conn.php');
 session_start();
 
@@ -17,33 +17,29 @@ else
     {
      header("location:login.php");
     }  
-   
     $User_Id = $_SESSION['User_Id'];
+    
+if(isset($_POST['update']))
+{    echo"$User_Id";
 
-if (isset($_POST['update'])) // when click on Update button
- { echo"$User_Id";
-    echo "<p>Unable to execute the query.</p> ";
-    $query ="UPDATE `user` SET `First_name`='$First_Name',`Last_name`='$Last_name',`Email`='$Email',`Password`='$Password',`Gender`='$Gender',`phone`='$phone' WHERE `User_Id`='$User_Id'";
-    $edit =  $conn->query($query);
-  
-       if($edit)
-    {   $conn->close();
-      #  header("location:update.php"); // redirects to all records page
-      exit;
-    }
-    else
-    {
+   
+    $up="update user set First_name='$First_Name', Last_name='$Last_name', phone='$phone' ,Gender='$Gender', Password='$Password' WHERE User_Id = '$User_Id'";
+    $edit = $conn->query($up);
+    if ($edit) {
+        $conn->close(); // Close connection
+         // redirects to all records page
+        exit;
+    } else {
         echo "<p>Unable to execute the query.</p> ";
         echo $query;
-        die ($conn -> error);
-    
-    } 
-}
-else
-{
-    echo "<p>Unable .</p> ";
-}    	
+        die($conn->error);
+    }
+  
+}  
+  
 ?>
+
+<h3>Update Data</h3>
 
 <form  method="POST">
 <input type="text" name="First_Name" value="<?php echo "$First_Name"; ?>" placeholder="First_Name" Required>
@@ -53,3 +49,4 @@ else
   <input type="text" name="Password" value="<?php echo "$Password"; ?>" placeholder="Enter Password" Required>
     <input type="submit" name="update" value="Update">
 </form>
+
