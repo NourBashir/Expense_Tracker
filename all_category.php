@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Information</title>
+ <title>All Category</title>
 </head>
 <link rel="stylesheet"href="css/style.css">
 <header role="banner">
@@ -21,15 +21,18 @@ session_start();
 
 if(isset($_SESSION['User_Id']))
   {
-    $User_Id = $_SESSION['User_Id'];
-    $First_Name = $_SESSION['First_name'];
-    $Last_name = $_SESSION['Last_name'];
-    $Email = $_SESSION['Email'];
-    $phone = $_SESSION['phone'];
-    $Gender = $_SESSION['Gender'];
-    $Password = $_SESSION['Password'];
     $First_Name = $_SESSION['First_name'];
 
+    $User_Id = $_SESSION['User_Id'];
+
+    $sql = "SELECT * FROM category WHERE User_Id = $User_Id";
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+      echo $query;
+      die($conn->error);
+
+    }
+    $data = $result->fetch_array(MYSQLI_ASSOC);
     ?> <h1 id="myDIV2" style="color:white;font-size:40px" align="center"><?php  echo "Hello $First_Name"; ?></h1><br>
 <?php
   } 
@@ -39,25 +42,23 @@ else
 
   }
 ?>        
-
     </div>
 </header>
-
 <body>
 <div style=" background-color:#28224618;padding:60px;background-image: url('images/11.jpg'); background-repeat: no-repeat;background-size: cover;  ">
 <div class="info-box">
-<h1  align="center" ><img id="logo-main" src="images/p.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">Personal Information:</h1></h1><br>
-<img align="right"  id="logo-main" src="images/5.png" width="170" height="180" alt="Logo Thing main logo"><br>
+<h1  align="center" ><img id="logo-main" src="images/cat.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">Categories:</h1></h1><br>
+<img align="right"  id="logo-main" src="images/catt.png" width="170" height="180" alt="Logo Thing main logo"><br>
+<?php 
+$count=0;
+while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
+    $count+=1;
+ ?>
+<h3 id="myDIV2" style="color: white;font-size:25px" ><?php echo $count; ?>  . Name: <?php echo $data['Category_Name']; ?>
+<h3 id="myDIV2" style="color: white;font-size:25px" >Amount :<?php echo $data['amount']; ?></h3><br>
 
-<h3 id="myDIV2" style="color: white;font-size:25px" >First Name :<?php echo  "$First_Name" ; ?></h3><br>
-<h3 id="myDIV2" style="color:white;font-size:25px" >Last Name :<?php echo  "$Last_name" ; ?></h3><br>
-<h3 id="myDIV2" style="color:white;font-size:25px" >Email:<?php echo  "$Email" ; ?></h3><br>
-<h3 id="myDIV2" style="color:white;font-size:25px" >Phone Number :<?php echo "$phone" ; ?></h3><br>
-<h3 id="myDIV2" style="color:white;font-size:25px" >Gender :<?php echo  "$Gender" ; ?></h3><br>
-<h3 id="myDIV2" style="color:white;font-size:25px" > Password :<?php echo "$Password" ; ?></h3><br>
-
-<h2><a id="myDIV1" href="update.php"  style="color:#3f3961c7;" >Up Date</a></h2>
-
+<?php } ?>
+<h2><a id="myDIV1" href="add_category.php"  style="color:#3f3961c7;" >Add Category</a></h2>
 </div>
 </div>
 <footer>

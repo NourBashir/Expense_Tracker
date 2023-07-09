@@ -6,16 +6,13 @@
     <a class="active" href="home.php">Home</a>
     <a href="about_us.php">About us</a>
     
-    <a href="add_category.php">Add categore</a>
+    <a href="all_category.php">Categore</a>
     <a href="#">Reports</a>
     <a href="#">search</a>
     <?php
     session_start();
 
       include('conn.php');
-
-   
-
       // Check if user is logged in
     if(isset($_SESSION['User_Id']))
     {?>
@@ -23,14 +20,21 @@
     <a href="logout.php">logout</a>
     
     <?php
-    $First_Name = $_SESSION['First_name'];
+         $User_Id = $_SESSION['User_Id'];
 
-    } else {
-      header("location:login.php");
-    }
+   $First_Name = $_SESSION['First_name'];
+
+  ?> <h1 id="myDIV2" style="color:white;font-size:40px" align="center"><?php  echo "Hello $First_Name"; ?></h1><br>
+<?php
+   } else {
+    header("location:login.php");
     ?>
-        <h1 id="myDIV2" style="color:white;font-size:40px" align="center"><?php  echo "Hello ". $First_Name; ?></h1><br>
+     <a href="login.php">Login</a>
+     <a href="signup.php">Sign up</a>
 
+     <?php 
+   }
+ ?>
   </div>
 </header><!-- header role="banner" -->
 

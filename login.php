@@ -9,33 +9,16 @@
 <div class="topnav">
       <a class="active" href="home.php">Home</a>
       <a href="about_us.php">About us</a>
-      <a  href="add_category.php">Add categore</a>
+      <a  href="all_category.php"> Category</a>
       <a href="#">Reports</a>
       <a href="#">search</a>
       <a  href="login.php">Login</a>
       <a href="signup.php">Sign up</a>
 
-
     </div>
 </header>
 <body>
  <?php
-# function read($username,$password,&$error_msg) {
- # $user = ["admin_2023", "cs314_2023", "system_admin"];
-  #$pass = ["Admin_2023", "Cs314_2023", "System_admin1"];
-  #$arrlength = count($user);
-  #for($x = 0; $x < $arrlength; $x++)
-  #{
- # if (($username==$user[$x] && $password==$pass[$x]))
-  #  {
-   #   echo"<script>location.href='home.html'</script>";
-    #} 
-   # else
-    #{
-     # $error_msg['pass3']="Invalid username or password";
-    #}
-  #}
-#}
 session_start();  
 
   include('conn.php');
@@ -56,6 +39,8 @@ if(isset($_POST['Email']))
     $_SESSION['Password']=$row['Password'];  
     $_SESSION['phone'] = $row['phone'];
     $_SESSION['Gender'] = $row['Gender'];
+    $_SESSION['Category_Name']=$row['Category_Name'];  
+    $_SESSION['amount'] = $row['amount'];
 
     header("Location:home.php");
    }
@@ -72,9 +57,9 @@ if(isset($_POST['Email']))
 <h1 id="myDIV" align="center" style="color:white;font-size:50px">Login</h1><br>
  <form method="post">
   <label  id="myDIV" style="color:white;" for="username">Username:</label>
-  <input type="text" id="Email" name="Email" class="text" required><br><br>
+  <input type="text" id="Email" name="Email" class="text" placeholder="Enter Your Email" required><br><br>
   <label  id="myDIV" style="color:white;" for="password">Password:</label>
-  <input type="password" id="password" name="Password" class="text" required>
+  <input type="password" id="password" name="Password" class="text" placeholder="Enter Your Password" required>
   <div class="error_msg">
         <?php
         if(isset($error_msg['pass3']))

@@ -12,7 +12,7 @@ session_start();
       <a class="active" href="home.php">Home</a>
       <a href="about_us.php">About us</a>
       
-      <a  href="add_category.php">Add categore</a>
+      <a  href="all_category.php">Categore</a>
       <a href="#">Reports</a>
       <a href="#">search</a>
       <a  href="login.php">Login</a>
@@ -47,15 +47,7 @@ if ($count_email==0)
 
         if($query)
         {
-           # $First_Name=$_POST['fname'];
-            #$Last_name=$_POST['Last_name'];
-            #$Email=$_POST['email'];
-            #$phone=$_POST['phone'];
-            #$gender=$_POST['gender'];
-            #$id = $_POST['id'];
-
-            #echo"<script>location.href='information.php?First_Name=$First_Name&Last_name=$Last_name&email=$Email&pass=$pass&phone=$phone&gender=$gender'</script>";
-
+          
             header("Location:login.php");
         }
        } 

@@ -1,5 +1,3 @@
-
-
 <link rel="stylesheet" href="css/style.css">
   <title>Home page</title>
 <header role="banner">
@@ -7,7 +5,7 @@
   <div class="topnav">
     <a class="active" href="home.php">Home</a>
     <a href="about_us.php">About us</a>
-    <a href="add_category.php">Add categore</a>
+    <a href="all_category.php"> Categore</a>
     <a href="#">Reports</a>
     <a href="#">search</a>
     <?php
@@ -22,23 +20,21 @@
     <a href="logout.php">logout</a>
 
     <?php
+     $User_Id = $_SESSION['User_Id'];
+
     $First_Name = $_SESSION['First_name'];
 
+   ?> <h1 id="myDIV2" style="color:white;font-size:40px" align="center"><?php  echo "Hello $First_Name"; ?></h1><br>
+<?php
     } else {?>
       <a href="login.php">Login</a>
       <a href="signup.php">Sign up</a>
 
-      <?php $First_Name="";
+      <?php 
     }
-    ?>
-    
-
-    <h1 id="myDIV2" style="color:white;font-size:40px" align="center"><?php  echo "Hello ". $First_Name; ?></h1><br>
-
-
+  ?>
   </div>
 </header><!-- header role="banner" -->
-
 <body>
   <div
     style="background-image: url('images/11.jpg'); filter: blur(8px);-webkit-filter: blur(2px);height: 100%;background-position: center;background-repeat: no-repeat;background-size: cover;  ">
