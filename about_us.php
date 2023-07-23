@@ -7,8 +7,9 @@
     <a href="about_us.php">About us</a>
     
     <a href="all_category.php">Categore</a>
-    <a href="#">Reports</a>
-    <a href="#">search</a>
+    <a href="expenses.php">Expenses</a>
+    <a href="add_expense.php">add Expenses</a>
+    <a href="search.php">search expense</a>
     <?php
     session_start();
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>All Category</title>
+  <title> Search Results</title>
 </head>
 <link rel="stylesheet"href="css/style.css">
 <header role="banner">
@@ -12,12 +12,12 @@
       <a  href="all_category.php">Categore</a>
       <a href="expenses.php">Expenses</a>
       <a href="add_expense.php">add Expenses</a>
-       <a href="search.php">search expense</a>
+      <a href="search.php">search expense</a>
       <a href="info.php">Personal Information</a>
-     
-
+      
       <a href="logout.php">logout</a>
 <?php
+try{
 include('conn.php');
 session_start();
 
@@ -27,13 +27,15 @@ if(isset($_SESSION['User_Id']))
 
     $User_Id = $_SESSION['User_Id'];
 
-    $sql = "SELECT * FROM category WHERE User_Id = $User_Id";
+    $sql = "SELECT * from expense join category on expense.Category_id=category.Category_Id";
     $result = mysqli_query($conn, $sql);
+   
     if (!$result) {
       echo $query;
       die($conn->error);
 
     }
+    
     ?> <h1 id="myDIV2" style="color:white;font-size:40px" align="center"><?php  echo "Hello $First_Name"; ?></h1><br>
 <?php
   } 
@@ -42,24 +44,31 @@ else
     header("location:login.php");
 
   }
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+
 ?>        
     </div>
 </header>
-<body>
-<div style=" background-color:#28224618;padding:60px;background-image: url('images/11.jpg'); background-repeat: no-repeat;background-size: cover;  ">
-<div class="info-box">
-<h1  align="center" ><img id="logo-main" src="images/cat.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">Categories:</h1></h1><br>
-<img align="right"  id="logo-main" src="images/catt.png" width="170" height="180" alt="Logo Thing main logo"><br>
-<?php 
-$count=0;
-while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
-    $count+=1; 
- ?>
-<h3 id="myDIV2" style="color: white;font-size:25px" ><?php echo $count; ?>  . Name: <?php echo $data['Category_Name']; ?>
-<h3 id="myDIV2" style="color: white;font-size:25px" >Amount :<?php echo $data['amount']; ?></h3><br>
+<div style=" background-color:#28224618;padding:60px;background-image: url('images/1.jpg'); background-repeat: no-repeat;background-size: cover; ">
+<div class="signup-box">
+<h1 id="myDIV" align="center" style="color:white;font-size:50px">search </h1><br>
+<form action="search_result.php" method="post">
+<p>
+        <label id="myDIV" style="color:white;"  >Category Name:</label>
+        <input type="text" name="Category_Name" placeholder="Please Enter Category Name"class="text1" >
+        </p>
+        <p>
+        <label id="myDIV" style="color:white;">Date:</label>
+        <input type="date" name="date" placeholder="Please Enter date"class="text1" >
+        </p>
+        <br>
+        <p>
+       <input style="color:#3f3961c7;"class="btn" type="submit" name="submit" value="Search">
 
-<?php } ?>
-<h2><a id="myDIV1" href="add_category.php"  style="color:#3f3961c7;" >Add Category</a></h2>
+        </p>
+    </form>
 </div>
 </div>
 <footer>
@@ -71,3 +80,6 @@ while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
     </div>
   </footer>
 </body>
+</html>
+
+

@@ -10,8 +10,6 @@
       <a class="active" href="home.php">Home</a>
       <a href="about_us.php">About us</a>
       <a  href="all_category.php"> Category</a>
-      <a href="#">Reports</a>
-      <a href="#">search</a>
       <a  href="login.php">Login</a>
       <a href="signup.php">Sign up</a>
 
@@ -41,7 +39,6 @@ if(isset($_POST['Email']))
     $_SESSION['Gender'] = $row['Gender'];
     $_SESSION['Category_Name']=$row['Category_Name'];  
     $_SESSION['amount'] = $row['amount'];
-
     header("Location:home.php");
    }
    else

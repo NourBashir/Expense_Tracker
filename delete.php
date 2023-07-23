@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +12,8 @@
       <a href="About_Us.php">About us</a>
       <a  href="all_category.php">Categore</a>
       <a href="expenses.php">Expenses</a>
-      <a href="add_expense.php">add Expenses</a>
-       <a href="search.php">search expense</a>
+      <a href="add_expense.php">Expenses2</a>
       <a href="info.php">Personal Information</a>
-     
-
       <a href="logout.php">logout</a>
 <?php
 include('conn.php');
@@ -26,14 +24,7 @@ if(isset($_SESSION['User_Id']))
     $First_Name = $_SESSION['First_name'];
 
     $User_Id = $_SESSION['User_Id'];
-
-    $sql = "SELECT * FROM category WHERE User_Id = $User_Id";
-    $result = mysqli_query($conn, $sql);
-    if (!$result) {
-      echo $query;
-      die($conn->error);
-
-    }
+    
     ?> <h1 id="myDIV2" style="color:white;font-size:40px" align="center"><?php  echo "Hello $First_Name"; ?></h1><br>
 <?php
   } 
@@ -46,20 +37,49 @@ else
     </div>
 </header>
 <body>
+<?php
+
+if(isset($_POST['delete'])) // when click on Update button
+{
+    $x=$_GET['Expense_Id'];
+
+    
+    echo $x;
+    $Category_Name=$_GET['Category_Name'];
+    $expense=$_GET['expense'];
+    $comment=$_GET['comment'];
+    $date=$_GET['date'];
+    
+     $query ="DELETE from expense where Expense_Id='$x'  ";
+    $delete =$conn->query($query);
+
+    if($delete)
+    {
+        $conn->close();// Close connection
+        header("location:expenses.php"); // redirects to all records page
+        exit;
+    }
+    else
+    {
+        echo "<p>Unable to execute the query.</p> ";
+        echo $query;
+        die ($conn -> error);
+    }    	
+}
+?>    
 <div style=" background-color:#28224618;padding:60px;background-image: url('images/11.jpg'); background-repeat: no-repeat;background-size: cover;  ">
 <div class="info-box">
-<h1  align="center" ><img id="logo-main" src="images/cat.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">Categories:</h1></h1><br>
+<h1  align="center" ><img id="logo-main" src="images/cat.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">Are you sure...?</h1></h1><br>
 <img align="right"  id="logo-main" src="images/catt.png" width="170" height="180" alt="Logo Thing main logo"><br>
-<?php 
-$count=0;
-while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
-    $count+=1; 
- ?>
-<h3 id="myDIV2" style="color: white;font-size:25px" ><?php echo $count; ?>  . Name: <?php echo $data['Category_Name']; ?>
-<h3 id="myDIV2" style="color: white;font-size:25px" >Amount :<?php echo $data['amount']; ?></h3><br>
-
-<?php } ?>
-<h2><a id="myDIV1" href="add_category.php"  style="color:#3f3961c7;" >Add Category</a></h2>
+<form method="POST">
+<h3 id="myDIV2" style="color: white;font-size:25px" > Name: <?php echo $_GET['Category_Name'];?>
+<h3 id="myDIV2" style="color: white;font-size:25px" >expense: <?php echo $_GET['expense'];?>
+<h3 id="myDIV2" style="color: white;font-size:25px" >payment: <?php echo $_GET['payment'];?>
+<h3 id="myDIV2" style="color: white;font-size:25px" >comment :<?php echo $_GET['comment'];?></h3>
+<h3 id="myDIV2" style="color: white;font-size:25px" >Date :<?php echo $_GET['date'];?></h3>
+<input  style="color:#3f3961c7;"class="btn" type="submit" name="delete" value="delete"><br><br><br>
+<h2><a href="expenses.php">No</a></h2>
+</form>
 </div>
 </div>
 <footer>
