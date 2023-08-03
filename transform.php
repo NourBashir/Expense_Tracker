@@ -4,7 +4,7 @@
 <?php
 session_start();
 ?>
-<title>Add Category</title>
+<title>Transform</title>
 <link rel="stylesheet"href="css/style.css">
 <header role="banner">
  <a href="home.php"><img id="logo-main" src="images/ett.png" width="100" alt="Logo Thing main logo"></a>
@@ -15,8 +15,6 @@ session_start();
       <a href="expenses.php">Expenses</a>
       <a href="add_expense.php">add Expenses</a>
       <a href="search.php">search expense</a>
-      <a href="add_review.php"> Add review</a>
-      <a href="all_review.php"> My reviews</a>
       <?php
       include('conn.php');
       // Check if user is logged in
@@ -41,76 +39,123 @@ session_start();
 </header>
 <body>
 <?php
-if(isset($_POST['name'])) 
+if(isset($_POST['from_name'])) 
 { 
   
-  try {
-  $name=$_POST['name'];
-  $expense=$_POST['expense'];
+  #try {
+  $from_name=$_POST['from_name'];
+  $to_name=$_POST['to_name'];
+  $amount1=$_POST['amount1'];
   $comment=$_POST['comment'];
-  $payment=$_POST['payment'];
   $date=$_POST['date'];
-  $sql="select * from category where Category_Name='$name' AND User_Id='$User_Id' ";
+  $sql="select * from category where Category_Name='$from_name' AND User_Id='$User_Id' ";
   $query=mysqli_query($conn,$sql);
   $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
- $_SESSION['amount']=$row['amount'];
-  $count_name=mysqli_num_rows($query) ;
-  if ($count_name>0)
-  { $_SESSION['Category_Id']=$row['Category_Id']; 
-    $Category_Id = $_SESSION['Category_Id'];  
+  $count_name1=mysqli_num_rows($query) ;
+
+  if($count_name1>0)
+  {$x=$row['Category_Id'];
+    $_SESSION['amount']=$row['amount'];
+  }
+  else
+  {
+    $error_msg['pass4']="From Category not exists!";
+
+  }
+  
+ # $_SESSION['Category1_Id']=$row['Category_Id'];
+  #$Category_Id_from = $_SESSION['Category1_Id'];  
+  $sql="select * from category where Category_Name='$to_name'AND User_Id='$User_Id' ";
+  $query=mysqli_query($conn,$sql);
+  $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
+  $count_name2=mysqli_num_rows($query) ;
+
+  if($count_name2>0)
+  {  $y=$row['Category_Id'];
+  }
+  else
+  {
+    $error_msg['pass4']="To Category not exists!";
+
+  }
+
+  #$_SESSION['Category2_Id']=$row['Category_Id']; 
+  #$Category_Id_to = $_SESSION['Category2_Id']; 
+
+  
+  try {
+  if ($count_name1>0&&$count_name2>0)
+  {   $_SESSION['Category1_Id']=$x;
+      $Category_Id_from = $_SESSION['Category1_Id'];  
+ 
+      $_SESSION['Category2_Id']=$y; 
+      $Category_Id_to = $_SESSION['Category2_Id']; 
     $amount = $_SESSION['amount']; 
-    if($amount>=$expense)
+     if($amount>=$amount1)
     {
-    $sql="INSERT INTO expense(Category_Id,expense,comment,payment,date) VALUES ('$Category_Id','$expense','$comment','$payment','$date')";
+    $sql="INSERT INTO transformation(Category_Id_from,Category_Id_to,amount,comment,Date) VALUES ('$Category_Id_from','$Category_Id_to','$amount1','$comment','$date')";
     $row=mysqli_fetch_array($query,MYSQLI_ASSOC);
     $query=mysqli_query($conn,$sql);
       if($query)
        {  # $_SESSION['Expense_Id']=$row['Expense_Id'];
           #  $mysqli = new mysqli($hn, $un, $pw, $db); 
            
-            $query ="UPDATE category SET amount=amount-$expense WHERE Category_Id=$Category_Id";
-            $stmt = $conn->query($query); echo $expense;
+            $query ="UPDATE category SET amount=amount-$amount1 WHERE Category_Id=$Category_Id_from";
+            $stmt = $conn->query($query); #echo $expense;
+            $query ="UPDATE category SET amount=amount+$amount1 WHERE Category_Id=$Category_Id_to";
+            $stmt = $conn->query($query); #echo $expense;
+
             
-            header("Location:expenses.php");
+            header("Location:all_category.php");
        }
     }
     else
     {
-      $error_msg['pass4']="The expense value is greater than the category budget....!";
+      $error_msg['pass4']="The amount value is greater than the category budget....!";
     }
   }
  else
  {
-   if($count_name==0)
+   if($count_name1==0&&$count_name2==0)
    {
-     $error_msg['pass4']="category not exists!";
+     $error_msg['pass4']="Frome category and To category not exists!";
    }
-  }} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
   }
+ 
+
+} catch (mysqli_sql_exception $exception) {
+  echo 'Transaction Failed!!';
+
+  if($mysqli!=null)
+      $mysqli -> close();
+  $mysqli=null;
+  echo'<br>';
+  echo $exception->getMessage();
+}
+
 }     
 ?>
  <div style=" background-color:#28224618;padding:60px;background-image: url('images/1.jpg'); background-repeat: no-repeat;background-size: cover; ">
 <div class="signup-box">
-<h1 id="myDIV" align="center" style="color:white;font-size:50px">Add Expense</h1><br>
+<h1 id="myDIV" align="center" style="color:white;font-size:50px">Transform</h1><br>
 <form method="POST"  >
 <p>
-        <label id="myDIV" style="color:white;"  >name:</label>
-        <input type="text" name="name" placeholder="Please Enter Category expense"class="text1" required>
+        <label id="myDIV" style="color:white;"  >From Category :</label>
+        <input type="text" name="from_name" placeholder="Please Enter From Category "class="text1" required>
         </p>
-      
+        <label id="myDIV" style="color:white;">To Category</label>
+        <input type="text" name="to_name" placeholder="Please Enter To Category"class="text1" required>
+        </p>
         <p>
-        <label id="myDIV" style="color:white;"  >expense:</label>
-        <input type="text" name="expense" placeholder="Please Enter Category expense"class="text1" required>
+        <label id="myDIV" style="color:white;"  >amount:</label>
+        <input type="text" name="amount1" placeholder="Please Enter Category amount"class="text1" required>
         </p>
         <p>
         <label id="myDIV" style="color:white;">comment:</label>
         <input type="text" name="comment" placeholder="Please Enter comment"class="text1" required>
         </p>
         <p>
-        <label id="myDIV" style="color:white;">payment:</label>
-        <input type="text" name="payment" placeholder="Please Enter payment"class="text1" required>
-        </p>
+        
         <p>
         <label id="myDIV" style="color:white;">date:</label>
         <input type="date" name="date" placeholder="Please Enter date"class="text1" required>
@@ -125,7 +170,7 @@ if(isset($_POST['name']))
         ?>
 </div>
         <p>
-            <input style="color:#3f3961c7;"class="btn" type="submit" name="add"value="Add Expense">
+            <input style="color:#3f3961c7;"class="btn" type="submit" name="add"value=" transform">
             <input  style="color:#3f3961c7;"class="btn" type="reset" value="Clear">
         </p>
     </form>

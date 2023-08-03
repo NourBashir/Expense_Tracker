@@ -4,7 +4,7 @@
 <?php
 session_start();
 ?>
-<title>Add review</title>
+<title>Add Review</title>
 <link rel="stylesheet"href="css/style.css">
 <header role="banner">
  <a href="home.php"><img id="logo-main" src="images/ett.png" width="100" alt="Logo Thing main logo"></a>
@@ -17,6 +17,7 @@ session_start();
       <a href="search.php">search expense</a>
       <a href="add_review.php"> Add review</a>
       <a href="all_review.php"> My reviews</a>
+
 
       
       <?php
@@ -43,50 +44,52 @@ session_start();
 </header>
 <body>
 <?php
-if(isset($_POST['name'])) 
+if(isset($_POST['rate'])) 
 {
-  $name=$_POST['name'];
-  $amount=$_POST['amount'];
+  $rate=$_POST['rate'];
+  $comment=$_POST['comment'];
+  $date=$_POST['date'];
+
   $User_Id = $_SESSION['User_Id'];
   
-  $sql="select * from category where Category_Name='$name' AND User_Id='$User_Id' ";
-  $query=mysqli_query($conn,$sql);
-  $count_name=mysqli_num_rows($query) ;
-  if ($count_name==0)
+  #$sql="select * from review where User_Id='$User_Id' ";
+  #$query=mysqli_query($conn,$sql);
+  if($rate>5||$rate<0)
   {
-        $sql="INSERT INTO category(Category_Name,amount,User_id) VALUES ('$name','$amount','$User_Id')";
-        $query=mysqli_query($conn,$sql);
-        if($query)
-        {   $_SESSION['Category_Id']=$row['Category_Id'];
-            $_SESSION['amount']=$_POST['amount']; 
-            header("Location:all_category.php");
-             
-        }
-  }
- else
- {
-   if($count_name>0)
-   {
-     $error_msg['pass4']="category already exists!";
-   }
+    $error_msg['pass4']="Rating must be from 1 to 5..!";
 
   }
- 
+  else
+  {
+  $sql="INSERT INTO `review`(`user_id`, `rate`, `comment`, `date`)
+  VALUES ('$User_Id','$rate','$comment','$date')";
+  $query=mysqli_query($conn,$sql);
+        if($query)
+        {   
+            header("Location:home.php");
+             
+        }
+   }
 
 }    
 ?>
  <div style=" background-color:#28224618;padding:60px;background-image: url('images/1.jpg'); background-repeat: no-repeat;background-size: cover; ">
 <div class="signup-box">
-<h1 id="myDIV" align="center" style="color:white;font-size:50px">Add Category</h1><br>
+<h1 id="myDIV" align="center" style="color:white;font-size:50px">Add Review</h1><br>
 <form method="POST"  >
 <p>
-        <label id="myDIV" style="color:white;"  >Category Name:</label>
-        <input type="text" name="name" placeholder="Please Enter Category Name"class="text1" required>
+        <label id="myDIV" style="color:white;"  >Rate From 1 To 5:</label>
+        <input type="text" name="rate" placeholder="Please Enter rate"class="text1" required>
         </p>
         <p>
-        <label id="myDIV" style="color:white;">Amount:</label>
-        <input type="text" name="amount" placeholder="Please Enter Amount"class="text1" required>
+        <label id="myDIV" style="color:white;">comment:</label>
+        <input type="text" name="comment" placeholder="Please Enter comment"class="text1" required>
         </p>
+        <p>
+        <label id="myDIV" style="color:white;">date:</label>
+        <input type="date" name="date" placeholder="Please Enter date"class="text1" required>
+        </p>
+
         <br>
         <div class="error_msg">
         <?php
@@ -97,7 +100,7 @@ if(isset($_POST['name']))
         ?>
 </div>
         <p>
-            <input style="color:#3f3961c7;"class="btn" type="submit" name="add"value="Add Category">
+            <input style="color:#3f3961c7;"class="btn" type="submit" name="add"value="Add ">
             <input  style="color:#3f3961c7;"class="btn" type="reset" value="Clear">
         </p>
     </form>

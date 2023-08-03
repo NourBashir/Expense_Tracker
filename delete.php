@@ -13,6 +13,9 @@
       <a  href="all_category.php">Categore</a>
       <a href="expenses.php">Expenses</a>
       <a href="add_expense.php">Expenses2</a>
+      <a href="add_review.php"> Add review</a>
+      <a href="all_review.php"> My reviews</a>
+
       <a href="info.php">Personal Information</a>
       <a href="logout.php">logout</a>
 <?php

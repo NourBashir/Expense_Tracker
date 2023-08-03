@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>All Category</title>
+ <title>All reviews</title>
 </head>
 <link rel="stylesheet"href="css/style.css">
 <header role="banner">
@@ -30,7 +30,7 @@ if(isset($_SESSION['User_Id']))
 
     $User_Id = $_SESSION['User_Id'];
 
-    $sql = "SELECT * FROM category WHERE User_Id = $User_Id";
+    $sql = "SELECT * FROM review WHERE User_Id = $User_Id";
     $result = mysqli_query($conn, $sql);
     if (!$result) {
       echo $query;
@@ -51,19 +51,19 @@ else
 <body>
 <div style=" background-color:#28224618;padding:60px;background-image: url('images/11.jpg'); background-repeat: no-repeat;background-size: cover;  ">
 <div class="info-box">
-<h1  align="center" ><img id="logo-main" src="images/cat.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">Categories:</h1></h1><br>
+<h1  align="center" ><img id="logo-main" src="images/cat.png" width="100" alt="Logo Thing main logo"><h1 id="myDIV2" style="color: white;font-size:35px">My Reviews:</h1></h1><br>
 <img align="right"  id="logo-main" src="images/catt.png" width="170" height="180" alt="Logo Thing main logo"><br>
 <?php 
 $count=0;
 while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
     $count+=1; 
  ?>
-<h3 id="myDIV2" style="color: white;font-size:25px" ><?php echo $count; ?>  . Name: <?php echo $data['Category_Name']; ?>
-<h3 id="myDIV2" style="color: white;font-size:25px" >Amount :<?php echo $data['amount']; ?></h3><br>
+<h3 id="myDIV2" style="color: white;font-size:25px" ><?php echo $count; ?>  . Rate: <?php echo $data['rate']; ?>
+<h3 id="myDIV2" style="color: white;font-size:25px" >Comment :<?php echo $data['comment']; ?>
+<h3 id="myDIV2" style="color: white;font-size:25px" >date: <?php echo $data['date']; ?></h3><br>
 
 <?php } ?>
-<h2><a id="myDIV1" href="add_category.php"  style="color:#3f3961c7;" >Add Category</a></h2><br>
-<h2><a id="myDIV1" href="transform.php"  style="color:#3f3961c7;" >transformation </a></h2>
+<h2><a id="myDIV1" href="add_review.php"  style="color:#3f3961c7;" >Add Review</a></h2><br>
 
 </div>
 </div>

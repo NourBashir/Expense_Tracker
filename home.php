@@ -8,7 +8,12 @@
     <a href="all_category.php"> Categore</a>
     <a href="expenses.php">Expenses</a>
     <a href="add_expense.php">add Expenses</a>
-    <a href="search.php">search expense</a>
+    <a href="search.php">search expense</a> 
+    <a href="add_review.php"> Add review</a>
+    <a href="all_review.php"> My reviews</a>
+
+
+
 
     <?php
       include('conn.php');
